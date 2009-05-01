@@ -1,0 +1,22 @@
+#résultats des benchmarks
+
+#52 mode debug
+============ RESULT =============
+Result benchmark    CnetImage::square : 26743333 clocks
+Result benchmark          CnetList::* : 13663333 clocks
+Result benchmark        CnetWidget::* : 18276666 clocks
+=================================
+
+#r52 mode optimized -O2
+============ RESULT =============
+Result benchmark    CnetImage::square : 10333333 clocks
+Result benchmark          CnetList::* : 13026666 clocks
+Result benchmark        CnetWidget::* : 5096666 clocks
+=================================
+
+#r52~ mode optimized -O3
+============ RESULT =============
+Result benchmark    CnetImage::square : 11383333 clocks
+Result benchmark          CnetList::* : 12090000 clocks
+Result benchmark        CnetWidget::* : 5673333 clocks
+=================================

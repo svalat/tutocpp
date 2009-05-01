@@ -1,0 +1,75 @@
+#!/bin/bash
+#############################################
+##         File :    makeFontHeader        ##
+##         Author :  VALAT Sébastien       ##
+##         Create :  27/11/2005            ##
+##         Project:  phys504               ##
+##         Licence:  GPL2                  ##
+#############################################
+
+if [ -z $1 ]
+then
+	echo "Vous devez préciser une fichier pgm (formater en ASCII) en entrée"
+	exit 1
+fi
+
+FNAME="font.h"
+
+echo "#ifndef FONT_H" > $FNAME
+echo "#define FONT_H" >> $FNAME
+echo >> $FNAME
+echo >> $FNAME
+
+#echo "const unsigned char SVFONT[]={" >> $FNAME
+i=0;
+buff="";
+buff_count=0;
+cat $1 |
+while read line
+do
+	if [ $i -le 3 ]
+	then
+		echo "escape -> $line"
+		i=$(($i+1))
+		if [ $i -eq 3 ]
+		then
+			WIDTH=`echo $line | awk '{print $1}'`
+			HEIGHT=`echo $line | awk '{print $2}'`
+			echo "width=$WIDTH, height=$HEIGHT"
+			echo "#define SVFONT_CHAR_HEIGHT $WIDTH" >> $FNAME
+			echo "#define SVFONT_HEIGHT $HEIGHT" >> $FNAME
+			echo "#define SVFONT_CHAR_WIDTH $(($HEIGHT/127))" >> $FNAME
+		fi
+		if [ $i -eq 4 ]
+		then
+			echo "const unsigned char SVFONT[]={" >> $FNAME
+		fi
+	else
+		if [ $line = "0" ]
+		then
+			line="000"
+		fi
+		if [ -z $buff ]
+		then
+			buff="$line"
+		else
+			buff="$buff,$line"
+		fi
+		buff_count=$(($buff_count+1))
+		if [ $buff_count -eq $WIDTH ]
+		then
+			echo "$buff," >> $FNAME
+			buff_count=0
+			buff="";
+		fi
+	fi
+done
+
+echo "};" >> $FNAME
+echo >> $FNAME
+
+
+echo >> $FNAME
+echo "#endif" >> $FNAME
+echo >> $FNAME
+
