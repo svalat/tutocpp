@@ -20,7 +20,7 @@
 int main(void)
 {
 	#ifdef USE_SDL
-	CnetSDLContainer root(200,200);
+	CnetSDLContainer root(500,500);
 	#else
 	CnetCursesContainer root(150,50);
 	#endif

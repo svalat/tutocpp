@@ -25,3 +25,8 @@ Result benchmark        CnetWidget::* : 5673333 clocks
 ============ RESULT =============
 Result benchmark        CnetWidget::* : 3216666 clocks
 =================================
+
+#r59 mode optimized -O3
+============ RESULT =============
+Result benchmark        CnetWidget::* : 2206666 clocks
+=================================

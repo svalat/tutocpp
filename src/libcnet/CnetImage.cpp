@@ -184,7 +184,8 @@ void CnetImage::square(unsigned int x0, unsigned int y0, unsigned int width, uns
 	//intérieur
 	for (unsigned int y=y0+1;y<lheight;y++)
 	{
-		this->bitmap2D[y][x0]=borderColor;
+		if (checkCoord(x0,y))
+			this->bitmap2D[y][x0]=borderColor;
 		line1 = this->bitmap2D[y];
 		for (unsigned int x=x0+1;x<lwidthInner;x++)
 			line1[x]=backgroundColor;
@@ -198,9 +199,12 @@ void CnetImage::square(unsigned int x0, unsigned int y0, unsigned int width, uns
 *******************************************/
 void CnetImage::paintImage(const CnetImage & image,unsigned int x,unsigned int y)
 {
+	//on check les dépassement
+	if ((x>width && x+image.width>width) || (y>height && y+image.height>height))
+		return;
 	//on calcule les limite à droite et bas
-	unsigned int w = min(x+image.width,width)-x;
-	unsigned int h = min(y+image.height,height)-y;
+	unsigned int w = min(image.width,width-x);
+	unsigned int h = min(image.height,height-y);
 	//limite à gauche
 	unsigned int xoffset = 0;
 	unsigned int yoffset = 0;
@@ -211,11 +215,11 @@ void CnetImage::paintImage(const CnetImage & image,unsigned int x,unsigned int y
 
 	CnetColor * line1;
 	CnetColor * line2;
-	for (unsigned int dy = yoffset;dy!=h;dy++)
+	for (unsigned int dy = yoffset;dy<h;dy++)
 	{
 		line1 = this->bitmap2D[y+dy];
 		line2 = image.bitmap2D[dy];
-		for (unsigned int dx = xoffset;dx!=w;dx++)
+		for (unsigned int dx = xoffset;dx<w;dx++)
 				line1[x+dx]=line2[dx];
 	}
 }

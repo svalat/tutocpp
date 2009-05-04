@@ -57,9 +57,10 @@ void CnetSDLContainer::run()
 
 		//evenement clavier
 		SDL_Event event;
-		needRefresh = true;
+		needRefresh = false;
 		SDL_WaitEvent(&event);
 
+		do {
 		switch (event.type)
 		{
 			case SDL_KEYDOWN:{
@@ -67,25 +68,27 @@ void CnetSDLContainer::run()
 				printf("La touche %s => %c a été préssée!\n",
 					   SDL_GetKeyName(event.key.keysym.sym),k);
 				this->sendKeyPess(k);
+				needRefresh = true;
 				break;}
 			case SDL_MOUSEMOTION:
 				this->setMousePosition(event.motion.x, event.motion.y);
+				needRefresh = true;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				printf("Le bouton %d de la souris a été préssé en (%d,%d)\n",
 					   event.button.button, event.button.x, event.button.y);
 				this->sendMouseDown();
+				needRefresh = true;
 				break;
 			case SDL_MOUSEBUTTONUP:
 				printf("Le bouton %d de la souris a été relaché en (%d,%d)\n",
 					   event.button.button, event.button.x, event.button.y);
 				this->sendMouseUp();
+				needRefresh = true;
 				break;
 			case SDL_QUIT:
 				exit(0);
-			default:
-				needRefresh = false;
-		}
+		}} while(SDL_PollEvent(&event));
 	}
 }
 
