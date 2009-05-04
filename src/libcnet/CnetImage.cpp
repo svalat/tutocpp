@@ -52,7 +52,7 @@ CnetColor CnetImage::getPixel(unsigned int x,unsigned int y) const throw (CnetOu
 
 	//check
 	this->checkCoordWithException(x,y);
-	
+
 	return this->bitmap2D[y][x];
 }
 
@@ -78,8 +78,15 @@ void CnetImage::clear(CnetColor color)
 	//erreur
 	assert(this->bitmap!=NULL);
 
-	for (unsigned long i=0;i<this->width * this->height;i++)
-		this->bitmap[i]=color;
+	union T {CnetColor cols[sizeof(unsigned long)];unsigned long value;};
+	assert(sizeof(T)==sizeof(unsigned long));
+	T tmp;
+	for (unsigned char i=0;i<sizeof(unsigned long);i++)
+		tmp.cols[i]=color;
+
+	const unsigned long size=this->width * this->height;
+	for (unsigned long i=0;i<size/sizeof(unsigned long)+1;i++)
+		((T*)this->bitmap)[i].value=tmp.value;
 }
 
 /*******************************************
@@ -182,8 +189,8 @@ void CnetImage::square(unsigned int x0, unsigned int y0, unsigned int width, uns
 *******************************************/
 void CnetImage::paintImage(const CnetImage & image,unsigned int x,unsigned int y)
 {
-	for (unsigned int dx = 0;dx!=image.width;dx++)
-		for (unsigned int dy = 0;dy!=image.height;dy++)
+	for (unsigned int dy = 0;dy!=image.height;dy++)
+		for (unsigned int dx = 0;dx!=image.width;dx++)
 			if (checkCoord(x+dx,y+dy))
 				this->bitmap2D[y+dy][x+dx]=image.bitmap2D[dy][dx];
 }
@@ -209,7 +216,7 @@ unsigned int CnetImage::getHeight() const
 *******************************************/
 void CnetImage::init(unsigned int width,unsigned int height)
 {
-	this->bitmap = new CnetColor[width*height];
+	this->bitmap = new CnetColor[width*height+sizeof(unsigned long)];
 	this->bitmap2D = new CnetColor*[height];
 	for (unsigned int i=0;i<height;i++)
 		this->bitmap2D[i]=this->bitmap+width*i;
@@ -273,7 +280,7 @@ CnetString CnetImage::toAscii(bool border) const
 	if (border)
 	{
 		borderBuffer[0]='+';
-		
+
 		for (unsigned int i=1;i<=this->width;i++)
 			borderBuffer[i]='-';
 		borderBuffer[this->width+1]='+';

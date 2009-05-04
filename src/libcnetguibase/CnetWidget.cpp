@@ -227,7 +227,7 @@ void CnetWidget::reorderChilds()
 	//pas besoin de trier
 	if (childs.getSize()<2)
 		return;
-	
+
 	unsigned int pos;
 	CnetWidget *tmp;
 	for (unsigned int i=0; i<childs.getSize()-1; i++)
@@ -262,9 +262,9 @@ void CnetWidget::refresh()
 	//widget courrant
 	//if (paintCurrent)
 	//	this->image->paintImage(child.getImage(),x,y);
-	this->image->clear(CNET_WHITE_COLOR);
+	//this->image->clear(CNET_WHITE_COLOR);
 	this->redraw();
-	
+
 	//les enfants
 	for (CnetList<CnetWidget*>::iterator it=this->childs.begin();it!=this->childs.end();++it)
 	{

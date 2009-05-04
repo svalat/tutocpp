@@ -16,6 +16,12 @@
 #include "CnetBenchmarkWidgetMainContainer.h"
 #include "CnetBenchmarkList.h"
 
+#ifdef SHORT_FOR_DEV
+#define NB_LOOP 1
+#else
+#define NB_LOOP 3
+#endif
+
 int main(int argc, char * argv[])
 {
 	printf("Benchmark...\n\n");
@@ -26,13 +32,13 @@ int main(int argc, char * argv[])
 	CnetBencmarkWidgetMainContainer bench3;
 
 	CnetList<CnetBenchmarkRunner *> bench;
-	bench.add(&bench1);
-	bench.add(&bench2);
+	//bench.add(&bench1);
+	//bench.add(&bench2);
 	bench.add(&bench3);
 
 	for (CnetList<CnetBenchmarkRunner *>::iterator it=bench.begin();it!=bench.end();++it)
 	{
-		for (int i=0;i<3;i++)
+		for (int i=0;i<NB_LOOP;i++)
 			(*it)->run();
 	}
 
@@ -40,6 +46,6 @@ int main(int argc, char * argv[])
 	for (CnetList<CnetBenchmarkRunner *>::iterator it=bench.begin();it!=bench.end();++it)
 		(*it)->printMeanTime();
 	printf("=================================\n");
-	
+
 	return EXIT_SUCCESS;
 }

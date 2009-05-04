@@ -1,7 +1,32 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="0" />
+ <DocsAndViews NumberOfDocuments="8" >
+  <Doc0 NumberOfViews="1" URL="file:///home/sebv/documents/c%2B%2B/tutocpp/src/libcnetguibase/CnetSDLContainer.cpp" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:///home/sebv/documents/c%2B%2B/tutocpp/src/libcnetguibase/CnetMainContainer.cpp" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:///home/sebv/documents/c%2B%2B/tutocpp/src/libcnetguibase/CnetCursesContainer.cpp" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/sebv/documents/c%2B%2B/tutocpp/src/benchmark/main.cpp" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/sebv/documents/c%2B%2B/tutocpp/src/benchmark/CnetBenchmarkRunner.cpp" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///home/sebv/documents/c%2B%2B/tutocpp/src/benchmark/CnetBenchmarkList.cpp" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/sebv/documents/c%2B%2B/tutocpp/src/libcnetguibase/CnetWidget.cpp" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:///home/sebv/documents/c%2B%2B/tutocpp/src/libcnet/CnetImage.cpp" >
+   <View0 Encoding="UTF-8" line="190" Type="Source" />
+  </Doc7>
+ </DocsAndViews>
  <pluginList>
   <kdevdebugger>
    <breakpointList/>
@@ -18,7 +43,7 @@
    <subversion base="" />
   </kdevsubversion>
   <kdevvalgrind>
-   <executable path="" params="" />
+   <executable path="/home/sebv/documents/c++/tutocpp/optimized/./src/benchmark/benchmark" params="" />
    <valgrind path="/usr/bin/valgrind" params=" --tool=memcheck --leak-check=yes" />
    <calltree path="/usr/bin/valgrind" params="--tool=callgrind" />
    <kcachegrind path="/usr/kde/3.5/bin/kcachegrind" />

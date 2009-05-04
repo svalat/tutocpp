@@ -89,8 +89,8 @@ void CnetTextBox::redraw()
 {
 	unsigned int maxChars = (this->getWidth()-4)/font.getCharWidth();
 	unsigned int cursorPos;
-	
-	this->image->clear(CNET_WHITE_COLOR);
+
+	//this->image->clear(CNET_WHITE_COLOR);
 	this->image->square(0,0,this->image->getWidth(),this->image->getHeight(),CNET_BLACK_COLOR,CNET_WHITE_COLOR);
 	if (this->text.getSize()<=maxChars) {
 		this->font.print(*this->image,2,2,this->text);
