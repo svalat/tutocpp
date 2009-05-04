@@ -20,3 +20,8 @@ Result benchmark    CnetImage::square : 11383333 clocks
 Result benchmark          CnetList::* : 12090000 clocks
 Result benchmark        CnetWidget::* : 5673333 clocks
 =================================
+
+#r57 mode optimized -O3
+============ RESULT =============
+Result benchmark        CnetWidget::* : 3216666 clocks
+=================================
