@@ -163,25 +163,34 @@ void CnetImage::bresenhamLine(unsigned int x,unsigned int xmax,unsigned int y,in
 *******************************************/
 void CnetImage::square(unsigned int x0, unsigned int y0, unsigned int width, unsigned int height, CnetColor borderColor ,CnetColor backgroundColor)
 {
-	unsigned int lwidth = min(x0+width,this->width);
-	unsigned int lwidthInner = min(x0+width-1,this->width);
-	unsigned int lheight = min(y0+height-1,this->height);
+	const unsigned int lwidth = min(x0+width,this->width);
+	const unsigned int lwidthInner = min(x0+width-1,this->width);
+	const unsigned int lheight = min(y0+height-1,this->height);
+	//on limiter les déréférencement
+	CnetColor * line1=this->bitmap2D[y0];
 	//ligne supérieur
-	for(unsigned int x=x0;x<lwidth;x++)
-		this->bitmap2D[y0][x]=borderColor;
+	if (y0+height-1<this->height)
+	{
+		CnetColor * line2=this->bitmap2D[y0+height-1];
+		for(unsigned int x=x0;x<lwidth;x++)
+		{
+			line1[x]=borderColor;
+			line2[x]=borderColor;
+		}
+	} else {
+		for(unsigned int x=x0;x<lwidth;x++)
+			line1[x]=borderColor;
+	}
 	//intérieur
 	for (unsigned int y=y0+1;y<lheight;y++)
 	{
 		this->bitmap2D[y][x0]=borderColor;
+		line1 = this->bitmap2D[y];
 		for (unsigned int x=x0+1;x<lwidthInner;x++)
-			this->bitmap2D[y][x]=backgroundColor;
+			line1[x]=backgroundColor;
 		if (checkCoord(x0+width-1,y))
 			this->bitmap2D[y][x0+width-1]=borderColor;
 	}
-	//ligne inférieur
-	if (y0+height-1<this->height)
-		for(unsigned int x=x0;x<lwidth;x++)
-			this->bitmap2D[y0+height-1][x]=borderColor;
 }
 
 /*******************************************
