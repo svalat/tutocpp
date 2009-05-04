@@ -78,14 +78,14 @@ void CnetImage::clear(CnetColor color)
 	//erreur
 	assert(this->bitmap!=NULL);
 
-	union T {CnetColor cols[sizeof(unsigned long)];unsigned long value;};
-	assert(sizeof(T)==sizeof(unsigned long));
+	union T {CnetColor cols[sizeof(unsigned int)];unsigned int value;};
+	assert(sizeof(T)==sizeof(unsigned int));
 	T tmp;
-	for (unsigned char i=0;i<sizeof(unsigned long);i++)
+	for (unsigned char i=0;i<sizeof(T);i++)
 		tmp.cols[i]=color;
 
 	const unsigned long size=this->width * this->height;
-	for (unsigned long i=0;i<size/sizeof(unsigned long)+1;i++)
+	for (unsigned long i=0;i<size/sizeof(T)+1;i++)
 		((T*)this->bitmap)[i].value=tmp.value;
 }
 
