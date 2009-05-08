@@ -199,29 +199,69 @@ void CnetImage::square(unsigned int x0, unsigned int y0, unsigned int width, uns
 *******************************************/
 void CnetImage::paintImage(const CnetImage & image,unsigned int x,unsigned int y)
 {
-	//on check les dépassement
-	if ((x>width && x+image.width>width) || (y>height && y+image.height>height))
+	CnetSquare square = {0,0,image.width,image.height};
+	//on ajuste dans pour rester sur l'image
+	if (this->fitToCurrentPicture(x,y,square)==false)
 		return;
-	//on calcule les limite à droite et bas
-	unsigned int w = min(image.width,width-x);
-	unsigned int h = min(image.height,height-y);
-	//limite à gauche
-	unsigned int xoffset = 0;
-	unsigned int yoffset = 0;
-	if ((int)x < 0)
-		xoffset-=x;
-	if ((int)y < 0)
-		yoffset-=y;
+	
+	//on dessine
+	this->realPaintImage(image,x,y,square);
+}
 
+
+void CnetImage::paintImage(const CnetImage & image,unsigned int x,unsigned int y,CnetSquare square)
+{
+	//check orig
+	if ((int)square.x<0) {square.x = 0; x-=(int)square.x;}
+	if ((int)square.y<0) {square.y = 0; y-=(int)square.y;}
+	square.width+=square.x;
+	square.height+=square.y;
+	//on check les dépassement
+	if (square.width>image.width) square.width=image.width;
+	if (square.height>image.height) square.height=image.height;
+	//on ajuste dans pour rester sur l'image
+	if (this->fitToCurrentPicture(x,y,square)==false)
+		return;
+	
+	//on dessine
+	this->realPaintImage(image,x,y,square);
+}
+
+/*******************************************
+           realPaintImage
+*******************************************/
+void CnetImage::realPaintImage(const CnetImage & image,unsigned int x,unsigned int y,CnetSquare square)
+{
 	CnetColor * line1;
 	CnetColor * line2;
-	for (unsigned int dy = yoffset;dy<h;dy++)
+	for (unsigned int dy =square.y;dy<square.height;dy++)
 	{
 		line1 = this->bitmap2D[y+dy];
 		line2 = image.bitmap2D[dy];
-		for (unsigned int dx = xoffset;dx<w;dx++)
-				line1[x+dx]=line2[dx];
+		for (unsigned int dx = square.x;dx<square.width;dx++)
+			line1[x+dx]=line2[dx];
 	}
+}
+
+/*******************************************
+           fitToCurrentPicture
+*******************************************/
+bool CnetImage::fitToCurrentPicture(unsigned int & x,unsigned int & y,CnetSquare & square) const
+{
+	//on check les dépassement
+	if ((x>width && x+square.width>width) || (y>height && y+square.height>height))
+		return false;
+	//on calcule les limite à droite et bas
+	square.width = min(square.width,width-x);
+	square.height = min(square.height,height-y);
+	//limite à gauche
+	if ((int)x < 0)
+		square.x-=x;
+	if ((int)y < 0)
+		square.y-=y;
+
+	//c'est bon
+	return true;
 }
 
 /*******************************************

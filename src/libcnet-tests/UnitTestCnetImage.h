@@ -34,6 +34,10 @@ class UnitTestCnetImage : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_paint_image );
 	CPPUNIT_TEST( test_paint_image_out );
 	CPPUNIT_TEST( test_paint_image_out2 );
+	CPPUNIT_TEST( test_paint_image_square );
+	CPPUNIT_TEST( test_paint_image_square_out );
+	CPPUNIT_TEST( test_paint_image_square_out2 );
+	CPPUNIT_TEST( test_paint_image_square_out3 );
 	CPPUNIT_TEST( test_getWidth );
 	CPPUNIT_TEST( test_getHeight );
 	CPPUNIT_TEST( test_pass_to_function );
@@ -66,6 +70,10 @@ class UnitTestCnetImage : public CppUnit::TestFixture
 		void test_paint_image();
 		void test_paint_image_out();
 		void test_paint_image_out2();
+		void test_paint_image_square();
+		void test_paint_image_square_out();
+		void test_paint_image_square_out2();
+		void test_paint_image_square_out3();
 		void test_getWidth();
 		void test_getHeight();
 		void test_pass_to_function();

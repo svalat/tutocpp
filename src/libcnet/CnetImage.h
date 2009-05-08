@@ -13,6 +13,13 @@
 
 typedef unsigned char CnetColor;
 
+struct CnetSquare{
+	unsigned int x;
+	unsigned int y;
+	unsigned int width;
+	unsigned int height;
+};
+
 //quelques constantes utiles
 const CnetColor CNET_WHITE_COLOR = 0xFF;
 const CnetColor CNET_GRAY_COLOR  = 0x80;
@@ -30,6 +37,7 @@ class CnetImage
 		void line(unsigned int x1,unsigned int y1,unsigned int x2,unsigned int y2,CnetColor color=CNET_BLACK_COLOR);//tested
 		void square(unsigned int x, unsigned int y , unsigned int width, unsigned int height, CnetColor borderColor=CNET_BLACK_COLOR ,CnetColor backgroundColor=CNET_GRAY_COLOR);
 		void paintImage(const CnetImage & image,unsigned int x,unsigned int y);
+		void paintImage(const CnetImage & image,unsigned int x,unsigned int y,CnetSquare square);
 		unsigned int getWidth() const;//tested
 		unsigned int getHeight() const;//tested
 		CnetString toAscii(bool border=false) const;//tested
@@ -50,6 +58,8 @@ class CnetImage
 		void bresenhamLine(unsigned int xmin,unsigned int xmax,unsigned int y,int dx,int dy,CnetColor color,bool permutXY=false);
 		template<class T> static inline void permut(T & a,T & b);//ok
 		bool compare(const CnetImage & image) const;
+		bool fitToCurrentPicture(unsigned int & x,unsigned int & y,CnetSquare & square) const;
+		void realPaintImage(const CnetImage & image,unsigned int x,unsigned int y,CnetSquare square);
 
 		//OPTIONNEL
 		inline unsigned int coord(unsigned int x,unsigned int y) const throw (CnetOutOfBoundException);//ok

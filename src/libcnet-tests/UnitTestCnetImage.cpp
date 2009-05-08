@@ -344,3 +344,67 @@ void UnitTestCnetImage::test_unit_test_save_and_load_image()
 
 	CPPUNIT_ASSERT_EQUAL(*image,res);
 }
+
+void UnitTestCnetImage::test_paint_image_square()
+{
+	//process
+	CnetImage square(40,40);
+	CnetSquare zone0={0,0,40,40};
+	CnetSquare zone1={0,0,20,20};
+	CnetSquare zone2={20,20,20,20};
+	square.square(0,0,40,40);
+	image->paintImage(square,2,2,zone0);
+	image->paintImage(square,50,2,zone1);
+	image->paintImage(square,50,2,zone2);
+	//save_image_to_file(*image,"/CnetImage/test_paint_image_square.bincnetimage",true);
+	//CPPUNIT_FAIL("test");
+	CnetImage expected = load_image_from_file("/CnetImage/test_paint_image_square.bincnetimage");
+	//test
+	CPPUNIT_ASSERT_EQUAL(expected,*image);
+	
+}
+
+void UnitTestCnetImage::test_paint_image_square_out()
+{
+	//process
+	CnetImage square(40,40);
+	square.square(0,0,40,40);
+	CnetSquare zone0={0,0,40,40};
+	image->paintImage(square,100,40,zone0);
+	//save_image_to_file(*image,"/CnetImage/test_paint_image_square_out.bincnetimage",true);
+	//CPPUNIT_FAIL("test");
+	CnetImage expected = load_image_from_file("/CnetImage/test_paint_image_square_out.bincnetimage");
+	//test
+	CPPUNIT_ASSERT_EQUAL(expected,*image);
+}
+
+void UnitTestCnetImage::test_paint_image_square_out2()
+{
+	//process
+	CnetImage square(40,40);
+	square.square(0,0,40,40);
+	CnetSquare zone0={0,0,40,40};
+	image->paintImage(square,-20,-20,zone0);
+	//save_image_to_file(*image,"/CnetImage/test_paint_image_square_out2.bincnetimage",true);
+	//CPPUNIT_FAIL("test");
+	CnetImage expected = load_image_from_file("/CnetImage/test_paint_image_square_out2.bincnetimage");
+	//test
+	CPPUNIT_ASSERT_EQUAL(expected,*image);
+}
+
+void UnitTestCnetImage::test_paint_image_square_out3()
+{
+	//process
+	CnetImage square(40,40);
+	CnetSquare zone0={20,20,40,40};
+	CnetSquare zone1={-2,-2,40,40};
+	square.square(0,0,40,40);
+	image->paintImage(square,2,2,zone0);
+	image->paintImage(square,50,2,zone1);
+	//save_image_to_file(*image,"/CnetImage/test_paint_image_square_out3.bincnetimage",true);
+	//CPPUNIT_FAIL("test");
+	CnetImage expected = load_image_from_file("/CnetImage/test_paint_image_square_out3.bincnetimage");
+	//test
+	CPPUNIT_ASSERT_EQUAL(expected,*image);
+	
+}
