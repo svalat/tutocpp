@@ -32,8 +32,8 @@ int main(int argc, char * argv[])
 	CnetBencmarkWidgetMainContainer bench3;
 
 	CnetList<CnetBenchmarkRunner *> bench;
-	//bench.add(&bench1);
-	//bench.add(&bench2);
+	bench.add(&bench1);
+	bench.add(&bench2);
 	bench.add(&bench3);
 
 	for (CnetList<CnetBenchmarkRunner *>::iterator it=bench.begin();it!=bench.end();++it)

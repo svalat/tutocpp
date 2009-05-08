@@ -12,6 +12,7 @@
 #include "CnetImage.h"
 #include <assert.h>
 #include "CnetImageToAscii.h"
+#include <string.h>
 
 
 #define min(x,y) (((x)<(y))?(x):(y))
@@ -78,15 +79,7 @@ void CnetImage::clear(CnetColor color)
 	//erreur
 	assert(this->bitmap!=NULL);
 
-	union T {CnetColor cols[sizeof(unsigned int)];unsigned int value;};
-	assert(sizeof(T)==sizeof(unsigned int));
-	T tmp;
-	for (unsigned char i=0;i<sizeof(T);i++)
-		tmp.cols[i]=color;
-
-	const unsigned long size=this->width * this->height;
-	for (unsigned long i=0;i<size/sizeof(T)+1;i++)
-		((T*)this->bitmap)[i].value=tmp.value;
+	memset(this->bitmap,color,this->width*this->height);
 }
 
 /*******************************************
@@ -172,14 +165,21 @@ void CnetImage::square(unsigned int x0, unsigned int y0, unsigned int width, uns
 	if (y0+height-1<this->height)
 	{
 		CnetColor * line2=this->bitmap2D[y0+height-1];
-		for(unsigned int x=x0;x<lwidth;x++)
+		/*for(unsigned int x=x0;x<lwidth;x++)
 		{
 			line1[x]=borderColor;
 			line2[x]=borderColor;
+		}*/
+		if (x0<lwidth)
+		{
+			memset(line1+x0,borderColor,lwidth-x0);
+			memset(line2+x0,borderColor,lwidth-x0);
 		}
 	} else {
-		for(unsigned int x=x0;x<lwidth;x++)
-			line1[x]=borderColor;
+		//for(unsigned int x=x0;x<lwidth;x++)
+		//	line1[x]=borderColor;
+		if (x0<lwidth)
+			memset(line1+x0,borderColor,lwidth-x0);
 	}
 	//intérieur
 	for (unsigned int y=y0+1;y<lheight;y++)
@@ -187,8 +187,10 @@ void CnetImage::square(unsigned int x0, unsigned int y0, unsigned int width, uns
 		if (checkCoord(x0,y))
 			this->bitmap2D[y][x0]=borderColor;
 		line1 = this->bitmap2D[y];
-		for (unsigned int x=x0+1;x<lwidthInner;x++)
-			line1[x]=backgroundColor;
+		//for (unsigned int x=x0+1;x<lwidthInner;x++)
+		//	line1[x]=backgroundColor;
+		if (x0+1<lwidthInner)
+			memset(line1+x0+1,backgroundColor,lwidthInner-x0-1);
 		if (checkCoord(x0+width-1,y))
 			this->bitmap2D[y][x0+width-1]=borderColor;
 	}
@@ -238,8 +240,10 @@ void CnetImage::realPaintImage(const CnetImage & image,unsigned int x,unsigned i
 	{
 		line1 = this->bitmap2D[y+dy];
 		line2 = image.bitmap2D[dy];
-		for (unsigned int dx = square.x;dx<square.width;dx++)
-			line1[x+dx]=line2[dx];
+		//for (unsigned int dx = square.x;dx<square.width;dx++)
+		//	line1[x+dx]=line2[dx];
+		if (square.x<square.width)
+			memcpy(line1+(x+square.x),line2+square.x,square.width-square.x);
 	}
 }
 
