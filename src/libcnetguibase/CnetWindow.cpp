@@ -33,6 +33,7 @@ CnetWindow::~CnetWindow()
 void CnetWindow::onMouseDown(void)
 {
 	this->mouseIdDown =true;
+	this->refresh();
 }
 
 /*******************************************
@@ -41,6 +42,7 @@ void CnetWindow::onMouseDown(void)
 void CnetWindow::onMouseUp(void)
 {
 	this->mouseIdDown =false;
+	this->refresh();
 }
 
 /*******************************************

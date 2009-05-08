@@ -37,9 +37,13 @@ class CnetWidget : protected CnetEvent
 		unsigned int getAbsoluteX();
 		unsigned int getAbsoluteY();
 		bool getNeedRefresh() const;
+		bool getNeedRedraw() const;
 	protected:
-		void refresh();
+		void refresh(CnetImage & rootImage);
 		CnetWidget & selectFocusChild(unsigned int x,unsigned int y);
+		void refresh(bool redraw=true,bool refreshChilds=false);
+		virtual void onGetFocus();
+		virtual void onLostFocus();
 		
 		CnetImage * image;
 		virtual void redraw(void)=0;
@@ -49,6 +53,7 @@ class CnetWidget : protected CnetEvent
 		void addChild(CnetWidget *child);
 		bool delChild(CnetWidget *child);
 		void reorderChilds();
+		void paintIntoRoot(CnetImage & rootImage);
 		
 		CnetWidget *parent;
 		int zIndex;
@@ -56,6 +61,7 @@ class CnetWidget : protected CnetEvent
 		unsigned int px;
 		unsigned int py;
 		bool needRefresh;
+		bool needRedraw;
 };
 
 #endif

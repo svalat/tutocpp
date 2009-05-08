@@ -49,6 +49,7 @@ void CnetWidget::init(CnetWidget * parent,unsigned int width,unsigned int height
 	this->zIndex = 0;
 	this->visible = true;
 	this->needRefresh = true;
+	this->needRedraw = true;
 	if (parent!=NULL)
 		parent->addChild(this);
 }
@@ -62,7 +63,7 @@ void CnetWidget::resize(unsigned int width, unsigned int height)
 	this->image = new CnetImage(width,height);
 	this->redraw();
 	if (this->parent!=NULL)
-		this->parent->needRefresh = true;
+		this->parent->refresh(false,true);
 }
 
 /*******************************************
@@ -73,7 +74,7 @@ void CnetWidget::setPosition(unsigned int x,unsigned int y)
 	this->px=x;
 	this->py=y;
 	if (this->parent!=NULL)
-		this->parent->needRefresh = true;
+		this->parent->refresh(false,true);
 }
 
 /*******************************************
@@ -110,7 +111,7 @@ void CnetWidget::move(int dx, int dy)
 	this->px+=dx;
 	this->py+=dy;
 	if (this->parent!=NULL)
-		this->parent->needRefresh = true;
+		this->parent->refresh(false,true);
 }
 
 /*******************************************
@@ -120,7 +121,7 @@ void CnetWidget::show()
 {
 	this->visible = true;
 	if (this->parent!=NULL)
-		this->parent->needRefresh = true;
+		this->parent->refresh(false,true);
 }
 
 /*******************************************
@@ -130,7 +131,7 @@ void CnetWidget::hide()
 {
 	this->visible = false;
 	if (this->parent!=NULL)
-		this->parent->needRefresh = true;
+		this->parent->refresh(false);
 }
 
 /*******************************************
@@ -189,7 +190,6 @@ void CnetWidget::addChild(CnetWidget *child)
 	assert(child!=NULL);
 	this->childs.add(child);
 	this->reorderChilds();
-	this->needRefresh = true;
 }
 
 /*******************************************
@@ -198,7 +198,7 @@ void CnetWidget::addChild(CnetWidget *child)
 bool CnetWidget::delChild(CnetWidget *child)
 {
 	this->childs.removeValue(child);
-	this->needRefresh = true;
+	this->refresh(false,true);
 	return true;
 }
 
@@ -239,7 +239,10 @@ void CnetWidget::reorderChilds()
 {
 	//pas besoin de trier
 	if (childs.getSize()<2)
+	{
+		this->refresh(false,true);
 		return;
+	}
 
 	unsigned int pos;
 	CnetWidget *tmp;
@@ -257,7 +260,7 @@ void CnetWidget::reorderChilds()
 			childs[pos]=tmp;
 		}
 	}
-	this->needRefresh = true;
+	this->refresh(false,true);
 }
 
 /*******************************************
@@ -271,24 +274,89 @@ CnetWidget * CnetWidget::getParent() const
 /*******************************************
               refresh
 *******************************************/
-void CnetWidget::refresh()
+void CnetWidget::refresh(bool redraw,bool refreshChilds)
+{
+	this->needRefresh = true;
+	if (redraw)
+		this->needRedraw = true;
+	if (refreshChilds || redraw)
+		for (CnetList<CnetWidget*>::iterator it=this->childs.begin();it!=this->childs.end();++it)
+			(*it)->refresh(true);
+}
+
+void CnetWidget::refresh(CnetImage & rootImage)
 {
 	//widget courrant
-	//if (paintCurrent)
-	//	this->image->paintImage(child.getImage(),x,y);
-	//this->image->clear(CNET_WHITE_COLOR);
-	this->redraw();
+	if (this->needRefresh)
+	{
+		this->redraw();
+		this->paintIntoRoot(rootImage);
+	}
 
 	//les enfants
 	for (CnetList<CnetWidget*>::iterator it=this->childs.begin();it!=this->childs.end();++it)
 	{
 		if ((*it)->getVisibility())
 		{
-			(*it)->refresh();
-			this->image->paintImage(*(*it)->image,(*it)->getX(),(*it)->getY());
+			(*it)->refresh(rootImage);
+			//this->image->paintImage(*(*it)->image,(*it)->getX(),(*it)->getY());
 		}
 	}
 	this->needRefresh = false;
+}
+
+/*******************************************
+              paintIntoRoot
+*******************************************/
+void CnetWidget::paintIntoRoot(CnetImage & rootImage)
+{
+	if (parent==NULL)
+		return;
+	CnetSquare square = {0,0,this->image->getWidth(),this->image->getHeight()};
+
+	if (this->parent!=NULL)
+	{
+		if ((int)this->px<0)
+			square.x=-this->px;
+		if ((int)this->py<0)
+			square.y=-this->py;
+		if (this->px+square.width > this->parent->image->getWidth())
+		{
+			if (this->px > this->parent->image->getWidth())
+				return;
+			else
+				square.width = this->parent->image->getWidth()-this->px;
+		}
+		if (this->py+square.height > this->parent->image->getHeight())
+		{
+			if (this->py > this->parent->image->getHeight())
+				return;
+			else
+				square.height = this->parent->image->getHeight()-this->py;
+		}
+	}
+
+	unsigned int absX = this->getAbsoluteX();
+	unsigned int absY = this->getAbsoluteY();
+	if ((int)absX<0) square.x+=(int)absX;
+	if ((int)absY<0) square.y+=(int)absY;
+	rootImage.paintImage(*this->image,absX,absY,square);
+}
+
+/*******************************************
+              onGetFocus
+*******************************************/
+void CnetWidget::onGetFocus()
+{
+	this->refresh();
+}
+
+/*******************************************
+              onLostFocus
+*******************************************/
+void CnetWidget::onLostFocus()
+{
+	this->refresh();
 }
 
 /*******************************************
@@ -313,4 +381,12 @@ CnetWidget & CnetWidget::selectFocusChild(unsigned int x,unsigned int y)
 bool CnetWidget::getNeedRefresh() const
 {
 	return this->needRefresh;
+}
+
+/*******************************************
+              getNeedRedraw
+*******************************************/
+bool CnetWidget::getNeedRedraw() const
+{
+	return this->needRedraw;
 }

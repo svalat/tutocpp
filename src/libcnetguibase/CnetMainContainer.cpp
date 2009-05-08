@@ -40,7 +40,7 @@ void CnetMainContainer::refresh()
 	//on fait un clear si besoin
 	if (this->getNeedRefresh())
 		this->image->clear(CNET_WHITE_COLOR);
-	CnetWidget::refresh();
+	CnetWidget::refresh(*this->image);
 	//on met à jour l'écran
 	this->redrawOnScreen();
 }
@@ -53,7 +53,7 @@ CnetImage CnetMainContainer::screenshot()
 	//on vide le buffer courrant
 	this->image->clear(CNET_WHITE_COLOR);
 	//on dessine les widget enfant
-	CnetWidget::refresh();
+	CnetWidget::refresh(*this->image);
 	//on renvoie l'image courrante
 	return *this->image;
 }

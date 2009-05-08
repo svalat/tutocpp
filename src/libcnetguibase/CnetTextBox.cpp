@@ -33,7 +33,7 @@ CnetTextBox::~CnetTextBox()
 void CnetTextBox::setText(const CnetString & text)
 {
 	this->text = text;
-	this->redraw();
+	this->refresh();
 }
 
 /*******************************************
@@ -58,7 +58,7 @@ CnetColor CnetTextBox::getColor() const
 void CnetTextBox::setColor(CnetColor color)
 {
 	this->font.setColor(color);
-	this->redraw();
+	this->refresh();
 }
 
 /*******************************************
@@ -79,7 +79,7 @@ void CnetTextBox::onKeyPress(char c)
 		default:
 			text+=c;
 	}
-	this->redraw();
+	this->refresh();
 }
 
 /*******************************************
@@ -110,5 +110,5 @@ void CnetTextBox::redraw()
 void CnetTextBox::clear()
 {
 	this->text="";
-	this->redraw();
+	this->refresh();
 }
