@@ -18,6 +18,7 @@ CnetWindow::CnetWindow(CnetWidget * parent, unsigned int width,unsigned int heig
 		:CnetWidget(parent,width,height)
 {
 	this->mouseIdDown = false;
+	this->image->square(0,0,this->getWidth(),this->getHeight(),CNET_GRAY_COLOR,CNET_WHITE_COLOR);
 }
 
 /*******************************************
@@ -59,7 +60,7 @@ void CnetWindow::onMouseMove(int dx,int dy)
 *******************************************/
 void CnetWindow::redraw(void)
 {
-	this->image->square(0,0,this->getWidth(),this->getHeight(),CNET_GRAY_COLOR,CNET_WHITE_COLOR);
+	//this->image->square(0,0,this->getWidth(),this->getHeight(),CNET_GRAY_COLOR,CNET_WHITE_COLOR);
 	if (this->hasFocus())
 	{
 		if (this->mouseIdDown)
