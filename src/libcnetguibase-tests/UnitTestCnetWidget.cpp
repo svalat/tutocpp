@@ -43,6 +43,7 @@ void UnitTestCnetWidget::test_constructor()
 	CPPUNIT_ASSERT_EQUAL(60,w1.getHeight());
 	CPPUNIT_ASSERT_EQUAL(0,w1.getZIndex());
 	CPPUNIT_ASSERT_EQUAL(true,w1.getVisibility());
+	CPPUNIT_ASSERT_EQUAL(true,w1.getNeedRefresh());
 	CPPUNIT_ASSERT_EQUAL(1,w1.countChilds());
 	CPPUNIT_ASSERT_EQUAL((CnetWidget*)&w2,w1.getChild(0));
 
@@ -54,6 +55,7 @@ void UnitTestCnetWidget::test_constructor()
 	CPPUNIT_ASSERT_EQUAL(30,w2.getHeight());
 	CPPUNIT_ASSERT_EQUAL(0,w2.getZIndex());
 	CPPUNIT_ASSERT_EQUAL(0,w2.countChilds());
+	CPPUNIT_ASSERT_EQUAL(true,w2.getNeedRefresh());
 }
 
 void UnitTestCnetWidget::test_destructor()
@@ -210,4 +212,9 @@ void UnitTestCnetWidget::test_get_width()
 void UnitTestCnetWidget::test_get_height()
 {
 	CPPUNIT_ASSERT_EQUAL(20,this->widget1->getHeight());
+}
+
+void UnitTestCnetWidget::test_need_refresh()
+{
+	CPPUNIT_ASSERT_EQUAL(true,this->widget1->getNeedRefresh());
 }

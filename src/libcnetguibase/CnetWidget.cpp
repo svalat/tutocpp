@@ -48,6 +48,7 @@ void CnetWidget::init(CnetWidget * parent,unsigned int width,unsigned int height
 	this->py = 0;
 	this->zIndex = 0;
 	this->visible = true;
+	this->needRefresh = true;
 	if (parent!=NULL)
 		parent->addChild(this);
 }
@@ -60,6 +61,8 @@ void CnetWidget::resize(unsigned int width, unsigned int height)
 	delete this->image;
 	this->image = new CnetImage(width,height);
 	this->redraw();
+	if (this->parent!=NULL)
+		this->parent->needRefresh = true;
 }
 
 /*******************************************
@@ -69,6 +72,8 @@ void CnetWidget::setPosition(unsigned int x,unsigned int y)
 {
 	this->px=x;
 	this->py=y;
+	if (this->parent!=NULL)
+		this->parent->needRefresh = true;
 }
 
 /*******************************************
@@ -104,6 +109,8 @@ void CnetWidget::move(int dx, int dy)
 {
 	this->px+=dx;
 	this->py+=dy;
+	if (this->parent!=NULL)
+		this->parent->needRefresh = true;
 }
 
 /*******************************************
@@ -112,6 +119,8 @@ void CnetWidget::move(int dx, int dy)
 void CnetWidget::show()
 {
 	this->visible = true;
+	if (this->parent!=NULL)
+		this->parent->needRefresh = true;
 }
 
 /*******************************************
@@ -120,6 +129,8 @@ void CnetWidget::show()
 void CnetWidget::hide()
 {
 	this->visible = false;
+	if (this->parent!=NULL)
+		this->parent->needRefresh = true;
 }
 
 /*******************************************
@@ -178,6 +189,7 @@ void CnetWidget::addChild(CnetWidget *child)
 	assert(child!=NULL);
 	this->childs.add(child);
 	this->reorderChilds();
+	this->needRefresh = true;
 }
 
 /*******************************************
@@ -186,6 +198,7 @@ void CnetWidget::addChild(CnetWidget *child)
 bool CnetWidget::delChild(CnetWidget *child)
 {
 	this->childs.removeValue(child);
+	this->needRefresh = true;
 	return true;
 }
 
@@ -244,6 +257,7 @@ void CnetWidget::reorderChilds()
 			childs[pos]=tmp;
 		}
 	}
+	this->needRefresh = true;
 }
 
 /*******************************************
@@ -274,6 +288,7 @@ void CnetWidget::refresh()
 			this->image->paintImage(*(*it)->image,(*it)->getX(),(*it)->getY());
 		}
 	}
+	this->needRefresh = false;
 }
 
 /*******************************************
@@ -290,4 +305,12 @@ CnetWidget & CnetWidget::selectFocusChild(unsigned int x,unsigned int y)
 			return ptr->selectFocusChild(x - ptr->px,y - ptr->py);
 	}
 	return *this;
+}
+
+/*******************************************
+              getNeedRefresh
+*******************************************/
+bool CnetWidget::getNeedRefresh() const
+{
+	return this->needRefresh;
 }

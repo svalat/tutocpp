@@ -18,7 +18,7 @@
    <subversion base="" />
   </kdevsubversion>
   <kdevvalgrind>
-   <executable path="/home/sebv/documents/c++/tutocpp/debug-profile/./src/benchmark/benchmark" params="" />
+   <executable path="" params="" />
    <valgrind path="/usr/bin/valgrind" params=" --tool=memcheck --leak-check=yes" />
    <calltree path="/usr/bin/valgrind" params="--tool=callgrind" />
    <kcachegrind path="/usr/kde/3.5/bin/kcachegrind" />

@@ -37,7 +37,9 @@ CnetMainContainer::~CnetMainContainer()
 *******************************************/
 void CnetMainContainer::refresh()
 {
-	this->image->clear(CNET_WHITE_COLOR);
+	//on fait un clear si besoin
+	if (this->getNeedRefresh())
+		this->image->clear(CNET_WHITE_COLOR);
 	CnetWidget::refresh();
 	//on met à jour l'écran
 	this->redrawOnScreen();

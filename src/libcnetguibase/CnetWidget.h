@@ -36,6 +36,7 @@ class CnetWidget : protected CnetEvent
 		CnetWidget * getParent() const;
 		unsigned int getAbsoluteX();
 		unsigned int getAbsoluteY();
+		bool getNeedRefresh() const;
 	protected:
 		void refresh();
 		CnetWidget & selectFocusChild(unsigned int x,unsigned int y);
@@ -54,6 +55,7 @@ class CnetWidget : protected CnetEvent
 		bool visible;
 		unsigned int px;
 		unsigned int py;
+		bool needRefresh;
 };
 
 #endif

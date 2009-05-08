@@ -34,6 +34,7 @@ class UnitTestCnetWidget : public CppUnit::TestFixture
 	CPPUNIT_TEST( test_get_z );
 	CPPUNIT_TEST( test_get_width );
 	CPPUNIT_TEST( test_get_height );
+	CPPUNIT_TEST( test_need_refresh );
 	CPPUNIT_TEST_SUITE_END();
 
 	public:
@@ -57,6 +58,7 @@ class UnitTestCnetWidget : public CppUnit::TestFixture
 		void test_get_z();
 		void test_get_width();
 		void test_get_height();
+		void test_need_refresh();
 	protected:
 		CnetWidgetForTest * root;
 		CnetWidgetForTest * widget1;
