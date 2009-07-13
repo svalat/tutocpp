@@ -38,6 +38,8 @@ void CnetSDLContainer::initSDL()
 		exit(1);
 	}
 
+	//repeat key
+	SDL_EnableKeyRepeat(300, 30);
 }
 
 void CnetSDLContainer::run()
@@ -48,12 +50,16 @@ void CnetSDLContainer::run()
 	//loop
 	bool run = true;
 	bool needRefresh = true;
+	Uint32 t = 0;
 	//tant que pas echape
 	while (run)
 	{
-		if (needRefresh)
+		if (needRefresh && SDL_GetTicks()-t>100/60)
+		{
 			this->refresh();
-		
+			t = SDL_GetTicks();
+		}
+
 
 		//evenement clavier
 		SDL_Event event;
@@ -63,8 +69,10 @@ void CnetSDLContainer::run()
 		do {
 		switch (event.type)
 		{
-			case SDL_KEYDOWN:{
+			case SDL_KEYDOWN: {
 				char k = event.key.keysym.sym;
+				if (event.key.keysym.sym==SDLK_BACKSPACE)
+					k=127;
 				printf("La touche %s => %c a été préssée!\n",
 					   SDL_GetKeyName(event.key.keysym.sym),k);
 				this->sendKeyPess(k);
@@ -100,7 +108,7 @@ void CnetSDLContainer::redrawOnScreen()
 			return;
 		}
 	}
-	
+
 	for (unsigned int x=0;x<this->image->getWidth();x++)
 		for (unsigned int y=0;y<this->image->getHeight();y++)
 			drawPixel(x,y,this->image->getPixel(x,y));

@@ -20,8 +20,8 @@
   </general>
   <kdevautoproject>
     <general>
-      <activetarget>src/libcnetguibase-tests/UnitTestGuiBase</activetarget>
-      <useconfiguration>debug-profile</useconfiguration>
+      <activetarget>src/progrs/curses</activetarget>
+      <useconfiguration>optimized</useconfiguration>
     </general>
     <run>
       <mainprogram>/home/sebv/documents/c++/tutocpp/debug</mainprogram>
@@ -108,7 +108,7 @@
         <cxxcompilerbinary/>
         <f77compilerbinary/>
         <cflags/>
-        <cxxflags>-O0 -g3 -Wall</cxxflags>
+        <cxxflags>-O0 -g3</cxxflags>
         <f77flags/>
       </debug-profile>
     </configurations>
