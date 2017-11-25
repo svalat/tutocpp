@@ -11,6 +11,7 @@
 #include "CnetEvent.h"
 #include "CnetImage.h"
 #include "CnetList.h"
+#include <climits>
 
 #define CNET_ZINDEX_MAX INT_MAX
 

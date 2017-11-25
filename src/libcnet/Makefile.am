@@ -1,5 +1,5 @@
 # set the include path found by configure
-INCLUDES = $(all_includes)
+AM_CPPFLAGS = $(all_includes)
 
 # the library search path.
 lib_LIBRARIES = libcnet.a

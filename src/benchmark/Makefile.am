@@ -1,4 +1,4 @@
-INCLUDES = -I$(top_srcdir)/src/libcnet -I$(top_srcdir)/src/libcnetguibase
+AM_CPPFLAGS = -I$(top_srcdir)/src/libcnet -I$(top_srcdir)/src/libcnetguibase
 METASOURCES = AUTO
 noinst_PROGRAMS = benchmark
 benchmark_SOURCES = CnetBenchmarkWidgetMainContainer.cpp CnetBenchmarkAnims.cpp \

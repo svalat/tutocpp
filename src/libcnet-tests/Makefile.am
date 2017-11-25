@@ -1,5 +1,5 @@
 # set the include path found by configure
-INCLUDES = -I$(top_srcdir)/src/libcnet $(all_includes)
+AM_CPPFLAGS = -I$(top_srcdir)/src/libcnet $(all_includes)
 
 # the library search path.
 AM_CXXFLAGS = $(CPPUNIT_CFLAGS) -DCNET_DATA_TEST_PATH="\"$(srcdir)/data\""

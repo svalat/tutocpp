@@ -1,7 +1,7 @@
-AC_INIT(configure.in)
-
+AC_INIT(tutocpp, 0.0.1)
+AC_CONFIG_SRCDIR([configure.ac])
+AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(tutocpp, 0.0.1)
 
 AC_LANG_CPLUSPLUS
 AC_PROG_CXX

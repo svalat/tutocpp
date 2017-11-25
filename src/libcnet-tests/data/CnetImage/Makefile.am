@@ -1,4 +1,4 @@
-INCLUDES = $(all_includes) -I$(top_srcdir)/src/libcnet
+AM_CPPFLAGS = $(all_includes) -I$(top_srcdir)/src/libcnet
 METASOURCES = AUTO
 noinst_DATA = test_clear.bincnetimage test_get_pixel.bincnetimage \
 	test_line_diag.bincnetimage test_line_diag2.bincnetimage test_line_out.bincnetimage \

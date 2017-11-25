@@ -10,7 +10,8 @@
 #endif
 
 #include "CnetCppUnitExtra.h"
-#include <stdio.h>
+#include <cstdio>
+#include <cstring>
 
 namespace CppUnit{
 
