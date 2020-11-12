@@ -7,7 +7,7 @@ AC_LANG_CPLUSPLUS
 AC_PROG_CXX
 AC_PROG_RANLIB
 
-AM_PATH_CPPUNIT(1.9.6)
+AM_PATH_CPPUNIT([1.9.6])
 
 AC_OUTPUT(Makefile src/Makefile src/benchmark/Makefile src/doc/Makefile \
 	src/libcnet-tests/Makefile src/libcnet-tests/data/CnetFont/Makefile \

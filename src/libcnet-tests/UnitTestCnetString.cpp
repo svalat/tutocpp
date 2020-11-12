@@ -11,7 +11,7 @@
 
 #include "UnitTestCnetString.h"
 #include "CnetCppUnitExtra.h"
-#include <gmpxx.h>
+//#include <gmpxx.h>
 #include <string.h>
 
 //break je veux pas utiliser des pointeur partour pour pouvoir faire met setup teardown
